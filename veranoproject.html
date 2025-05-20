@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; 
+            margin: 0;
+            background-color: #1e1e2f; 
+            color: white;
+        }
+
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            background: linear-gradient(135deg, #6c63ff, #1e1e2f);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .portal-container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #6c63ff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #5a54e0;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .course {
+            cursor: pointer;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .course:hover {
+            background-color: #f0f0f0; 
+        }
+    </style>
+</head>
+<body>
+
+<div id="login" class="login-container">
+    <h2>Welcome to E-Learning Portal</h2>
+    <p>Enter your account details</p>
+    <form id="loginForm" onsubmit="return handleLogin(event)">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <p style="color: #ccc;">Don't have an account? <a href="#" style="color: #6c63ff;" onclick="showSignup()">Sign up</a></p>
+</div>
+
+<div id="signup" class="login-container" style="display: none;">
+    <h2>Create an Account</h2>
+    <form id="signupForm" onsubmit="return handleSignup(event)">
+        <input type="text" id="fullName" placeholder="Full Name" required>
+        <input type="date" id="birthdate" required>
+        <input type="text" id="address" placeholder="Address" required>
+        <input type="text" id="phoneNumber" placeholder="Phone Number" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <select id="coursesEnrolled" required style="width: 100%; margin: 10px 0; padding: 10px; border: none; border-radius: 5px;">
+            <option value="" disabled selected>Select Courses Enrolled</option>
+            <option value="BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY">BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</option>
+            <option value="BACHELOR OF SCIENCE IN SECONDARY EDUCATION">BACHELOR OF SCIENCE IN SECONDARY EDUCATION</option>
+            <option value="BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT">BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT</option>
+            <option value="BACHELOR OF SCIENCE IN TOURISM MANAGEMENT">BACHELOR OF SCIENCE IN TOURISM MANAGEMENT</option>
+        </select>
+        <input type="text" id="signupUsername" placeholder="Username" required> 
+        <input type="password" id="signupPassword" placeholder="Password" required> 
+        <button type="submit">Create Account</button>
+    </form>
+    <p style="color: #ccc;">Already have an account? <a href="#" style="color: #6c63ff;" onclick="showLogin()">Login</a></p>
+</div>
+
+<div id="portal" class="portal-container" style="display: none; padding: 20px;">
+    <h1>Welcome to the E-Learning Portal</h1>
+    <p>Explore our courses in Colegio de Sta Teresa de Avila!</p>
+    
+    <div class="course-list">
+        <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY', 'Provides a foundational understanding of how technology is used to solve problems and meet user needs.')">
+            <h3>BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</h3>
+            <p>Provides a foundational understanding of how technology is used to solve problems and meet user needs.</p>
+        </div>
+        <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN SECONDARY EDUCATION', 'A four-year degree that prepares individuals to become high school teachers in specific areas like English, Science, Mathematics, Filipino, or Social Studies.')">
+            <h3>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</h3>
+            <p>A four-year degree that prepares individuals to become high school teachers in specific areas like English, Science, Mathematics, Filipino, or Social Studies.</p>
+        </div>
+        <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT', 'A four-year undergraduate degree program that prepares students for careers in the hospitality industry.')">
+            <h3>BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT</h3>
+            <p>A four-year undergraduate degree program that prepares students for careers in the hospitality industry.</p>
+        </div>
+        <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN TOURISM MANAGEMENT', 'Provides a foundational understanding of the tourism industry, its various aspects, and the skills needed for success in this field.')">
+            <h3>BACHELOR OF SCIENCE IN TOURISM MANAGEMENT</h3>
+            <p>Provides a foundational understanding of the tourism industry, its various aspects, and the skills needed for success in this field.</p>
+        </div>
+    </div>
+    
+    <div class="button-container" style="margin-top: 20px;">
+        <button class="btn btn-primary" onclick="viewProfile()">View Profile</button>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<div id="courseDetail" class="course-detail-container" style="display: none;">
+    <h1 id="courseTitle"></h1>
+    <p id="courseDescription"></p>
+    <button onclick="goBack()">Back to Courses</button>
+</div>
+
+<script>
+let savedUsername = '';
+let savedPassword = '';
+let userProfile = {};
+
+function showLogin() {
+    document.getElementById('signup').style.display = 'none';
+    document.getElementById('login').style.display = 'block';
+}
+
+function handleSignup(event) {
+    event.preventDefault();
+    
+    const fullName = document.getElementById('fullName').value;
+    const birthdate = document.getElementById('birthdate').value;
+    const address = document.getElementById('address').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const email = document.getElementById('email').value;
+    const coursesEnrolled = document.getElementById('coursesEnrolled').value; 
+    const username = document.getElementById('signupUsername').value; 
+    const password = document.getElementById('signupPassword').value; 
+    savedUsername = username;
+    savedPassword = password;
+    userProfile = {
+        fullName,
+        birthdate,
+        address,
+        phoneNumber,
+        email,
+        coursesEnrolled 
+    };
+    alert(`Account created successfully for ${fullName}!`);
+    showLogin();
+}
+function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    if (username === savedUsername && password === savedPassword) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('portal').style.display = 'block';
+    } else {
+        alert("Invalid username or password. Please try again.");
+    }
+}
+
+function showSignup() {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('signup').style.display = 'block';
+}
+
+function viewProfile() {
+    const profileHtml = `
+        <h2>User Profile</h2>
+        <p><strong>Full Name:</strong> ${userProfile.fullName}</p>
+        <p><strong>Birthdate:</strong> ${userProfile.birthdate}</p>
+        <p><strong>Address:</strong> ${userProfile.address}</p>
+        <p><strong>Phone Number:</strong> ${userProfile.phoneNumber}</p>
+        <p><strong>Email:</strong> ${userProfile.email}</p>
+        <p><strong>Courses Enrolled:</strong> ${userProfile.coursesEnrolled}</p> <!-- Display enrolled courses -->
+        <button onclick="closeProfile()">Close</button>
+    `;
+    document.getElementById('portal').innerHTML = profileHtml; 
+}
+function closeProfile() {
+    document.getElementById('portal').innerHTML = `
+        <h1>Welcome to the E-Learning Portal</h1>
+        <p>Explore our courses in Colegio de Sta Teresa de Avila!</p>
+        <div class="button-container">
+            <button class="btn btn-primary" onclick="viewProfile()">View Profile</button>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    `;
+}
+
+function logout() {
+    const confirmLogout = confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('portal').style.display = 'none';
+        showLogin();
+    }
+}
+
+function showCourseDetail(title, description) {
+    document.getElementById('portal').style.display = 'none';
+    document.getElementById('courseDetail').style.display = 'block';
+    document.getElementById('courseTitle').innerText = title;
+    document.getElementById('courseDescription').innerText = description;
+}
+
+function goBack() {
+    document.getElementById('courseDetail').style.display = 'none';
+    document.getElementById('portal').style.display = 'block';
+}
+function closeProfile() {
+    document.getElementById('portal').innerHTML = `
+        <h1>Welcome to the E-Learning Portal</h1>
+        <p>Explore our courses and resources!</p>
+        <div class="course-list">
+            <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY', 'Provides a foundational understanding of how technology is used to solve problems and meet user needs.')">
+                <h3>BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</h3>
+                <p>Provides a foundational understanding of how technology is used to solve problems and meet user needs.</p>
+            </div>
+            <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN SECONDARY EDUCATION', 'A four-year degree that prepares individuals to become high school teachers in specific areas like English, Science, Mathematics, Filipino, or Social Studies.')">
+                <h3>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</h3>
+                <p>A four-year degree that prepares individuals to become high school teachers in specific areas like English, Science, Mathematics, Filipino, or Social Studies.</p>
+            </div>
+            <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT', 'A four-year undergraduate degree program that prepares students for careers in the hospitality industry.')">
+                <h3>BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT</h3>
+                <p>A four-year undergraduate degree program that prepares students for careers in the hospitality industry.</p>
+            </div>
+            <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN TOURISM MANAGEMENT', 'Provides a foundational understanding of the tourism industry, its various aspects, and the skills needed for success in this field.')">
+                <h3>BACHELOR OF SCIENCE IN TOURISM MANAGEMENT</h3>
+                <p>Provides a foundational understanding of the tourism industry, its various aspects, and the skills needed for success in this field.</p>
+            </div>
+        </div>
+        <div class="button-container" style="margin-top: 20px;">
+            <button class="btn btn-primary" onclick="viewProfile()">View Profile</button>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    `;
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
+</body>
+</html>
