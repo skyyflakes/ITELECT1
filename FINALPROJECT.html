@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Learning Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-..." crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; 
+            margin: 0;
+            background-color: #1e1e2f; 
+            color: white;
+        }
+
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: auto;
+            background: linear-gradient(135deg, #6c63ff, #1e1e2f);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 128, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .portal-container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #6c63ff;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #5a54e0;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .course {
+            cursor: pointer;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .course:hover {
+            background-color: #f0f0f0; 
+        }
+    </style>
+</head>
+<body>
+
+<div id="login" class="login-container">
+    <h2>Welcome to E-Learning Portal</h2>
+    <p>Enter your account details</p>
+    <form id="loginForm" onsubmit="return handleLogin(event)">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <p style="color: #ccc;">Don't have an account? <a href="#" style="color: #6c63ff;" onclick="showSignup()">Sign up</a></p>
+</div>
+
+<div id="signup" class="login-container" style="display: none;">
+    <h2>Create an Account</h2>
+    <form id="signupForm" onsubmit="return handleSignup(event)">
+        <input type="text" id="fullName" placeholder="Full Name" required autocomplete="off">
+        <label for="birthdate" style="margin-top: 10px;">Birthdate:</label>
+        <input type="date" id="birthdate" placeholder="Birthdate" required autocomplete="off">
+        <input type="text" id="address" placeholder="Address" required autocomplete="off">
+        <input type="text" id="phoneNumber" placeholder="Phone Number" required autocomplete="off">
+        <input type="email" id="email" placeholder="Email" required autocomplete="off">
+        <input type="text" id="signupUsername" placeholder="Username" required autocomplete="off">
+        <input type="password" id="signupPassword" placeholder="Password" required autocomplete="off">
+        <select id="coursesEnrolled" required style="width: 100%; margin: 10px 0; padding: 10px; border: none; border-radius: 5px;" autocomplete="off">
+            <option value="" disabled selected>Select Courses Enrolled</option>
+            <option value="BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY">BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</option>
+            <option value="BACHELOR OF SCIENCE IN SECONDARY EDUCATION">BACHELOR OF SCIENCE IN SECONDARY EDUCATION</option>
+            <option value="BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT">BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT</option>
+            <option value="BACHELOR OF SCIENCE IN TOURISM MANAGEMENT">BACHELOR OF SCIENCE IN TOURISM MANAGEMENT</option>
+        </select>
+        <button type="submit">Create Account</button>
+    </form>
+    <p style="color: #ccc;">Already have an account? <a href="#" style="color: #6c63ff;" onclick="showLogin()">Login</a></p>
+</div>
+<div class="notification" id="notification">
+    <span id="notificationMessage"></span>
+    <button onclick="closeNotification()" class="btn btn-close"></button>
+</div>
+
+
+<div id="portal" class="portal-container" style="display: none; padding: 20px;">
+    <h1>Welcome to the E-Learning Portal</h1>
+    <p>Explore our courses in Colegio de Sta Teresa de Avila!</p>
+    
+    <div class="course-list">
+        <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY', 'Learn how technology solves problems and meets user needs.')">
+            <h3>BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</h3>
+            <p>Learn how technology solves problems and meets user needs.</p>
+        </div>
+        <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN SECONDARY EDUCATION', 'Prepare to become a high school teacher in specific areas.')">
+            <h3>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</h3>
+            <p>Prepare to become a high school teacher in specific areas.</p>
+        </div>
+        <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT', 'Prepare for a career in the hospitality industry.')">
+            <h3>BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT</h3>
+            <p>Prepare for a career in the hospitality industry.</p>
+        </div>
+        <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN TOURISM MANAGEMENT', 'Understand various aspects of the tourism industry.')">
+            <h3>BACHELOR OF SCIENCE IN TOURISM MANAGEMENT</h3>
+            <p>Understand various aspects of the tourism industry.</p>
+        </div>
+    </div>
+    
+    <div class="button-container" style="margin-top: 20px;">
+        <button class="btn btn-primary" onclick="viewProfile()">View Profile</button>
+        <button class="btn btn-danger" onclick="logout()">Logout</button>
+    </div>
+</div>
+
+<div class="modal fade" id="courseModal" tabindex="-1" aria-labelledby="courseModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="courseModalLabel">Course Selected</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                You have clicked on the course: <strong id="courseModalDescription"></strong>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="courseDetail" class="course-detail-container" style="display: none;">
+    <h1 id="courseTitle"></h1>
+    <div id="programmingLanguages" style="display: none;">
+        <h2>LEARN ABOUT THE PROGRAMMING LANGUAGES</h2>
+        <ul>
+            <li><strong>Python:</strong> High-level, interpreted language known for its readability and simplicity, widely used in web development, data analysis, AI, and scientific computing with extensive libraries like Django and Flask.</li>
+            <li><strong>Java:</strong> Object-oriented programming language that is platform-independent due to the Java Virtual Machine (JVM), commonly used for enterprise-level applications, Android apps, and web applications, with a rich set of libraries like Spring and Hibernate.</li>
+            <li><strong>JavaScript:</strong> Scripting language primarily used for creating interactive web pages, essential for front-end development, and supports frameworks like React, Angular, and Vue.js for dynamic user interfaces.</li>
+            <li><strong>C++:</strong> An extension of the C programming language that includes object-oriented features, used in system/software development, game development, and performance-critical applications, offering fine control over system resources and memory management.</li>
+            <li><strong>C#:</strong> Developed by Microsoft, C# is a versatile language primarily used for Windows applications and game development with Unity, designed for building a wide range of applications on the .NET framework and supports modern programming paradigms.</li>
+            <li><strong>PHP:</strong> A server-side scripting language designed for web development but also used as a general-purpose programming language, powering many content management systems like WordPress and Drupal, known for its ease of integration with databases, particularly MySQL.</li>
+            <li><strong>Ruby:</strong> A dynamic, object-oriented language known for its elegant syntax and productivity, often used in web development with the Ruby on Rails framework, emphasizing convention over configuration for quick application development.</li>
+            <li><strong>SQL:</strong> Structured Query Language used for managing and manipulating relational databases, essential for data retrieval, insertion, updating, and deletion in database systems, and works with various database management systems like MySQL, PostgreSQL, and Oracle.</li>
+        </ul>
+    </div>
+    <div id="educationMajors" style="display: none;">
+        <h2>LEARN ABOUT THE MAJORS OF EDUCATION</h2>
+        <ul>
+            <li><strong>Filipino:</strong> Focuses on the mastery of the Filipino language, literature, culture, and teaching strategies for effective communication and appreciation of national identity.</li>
+            <li><strong>Mathematics:</strong> Emphasizes advanced mathematical concepts, problem-solving skills, and effective strategies in teaching mathematics in secondary schools.</li>
+            <li><strong>Social Studies:</strong> Covers Philippine history, world history, economics, geography, and civics, with emphasis on developing critical thinking and civic responsibility among students.</li>
+            <li><strong>English:</strong> Develops strong communication skills, literature analysis, grammar proficiency, and modern methods for teaching English as a second language in diverse classroom settings.</li>
+        </ul>
+    </div>
+    <div id="hospitalityTopics" style="display: none;">
+        <h2>LEARN ABOUT THE MAJOR SUBJECTS OF HOSPITALITY MANAGEMENT</h2>
+        <ul>
+            <li><strong>Front Office Operations:</strong> Focuses on the management of guest services, reservations, check-in/check-out procedures, and customer relations in hotel settings.</li>
+            <li><strong>Housekeeping Management:</strong> Covers cleaning standards, maintenance, room preparation, and supervisory skills essential for maintaining hotel hygiene and guest satisfaction.</li>
+            <li><strong>Food and Beverage Service:</strong> Teaches restaurant operations, table service techniques, bar management, and customer service within dining establishments.</li>
+            <li><strong>Culinary Arts:</strong> Involves food preparation, cooking techniques, kitchen safety, and menu planning with emphasis on both local and international cuisine.</li>
+            <li><strong>Hospitality Marketing and Sales:</strong> Focuses on marketing principles, branding, customer engagement, and sales strategies specific to the hospitality and tourism industry.</li>
+            <li><strong>Event Management:</strong> Teaches planning, organizing, and executing events such as conferences, weddings, and corporate functions with attention to detail and client needs.</li>
+            <li><strong>Travel and Tour Operations:</strong> Introduces travel agency operations, itinerary planning, ticketing, and tourism trends both locally and internationally.</li>
+            <li><strong>Hospitality Financial Management:</strong> Covers budgeting, cost control, financial analysis, and accounting practices relevant to hospitality operations.</li>
+            <li><strong>Entrepreneurship in Hospitality:</strong> Encourages innovation and business planning for those aiming to start or manage their own hospitality ventures.</li>
+        </ul>
+    </div>
+    <div id="tourismTopics" style="display: none;">
+        <h2>LEARN ABOUT TOURISM</h2>
+        <ul>
+            <li><strong>Tourism Planning and Development:</strong> Focuses on designing sustainable tourism projects, destination planning, and the role of tourism in economic development.</li>
+            <li><strong>Travel and Tour Operations:</strong> Covers the management of travel agencies, itinerary planning, ticketing systems, tour packaging, and customer service in tour guiding.</li>
+            <li><strong>Airline Operations and Ticketing:</strong> Introduces airline procedures, global distribution systems (GDS), fare computation, and ticketing protocols used in the aviation and travel industry.</li>
+            <li><strong>Tourism and Hospitality Marketing:</strong> Teaches marketing strategies, branding, promotions, and consumer behavior specific to tourism and hospitality services.</li>
+            <li><strong>Events Management:</strong> Involves planning, organizing, and managing tourism-related events such as festivals, expos, and conventions with focus on logistics and creativity.</li>
+            <li><strong>Heritage and Cultural Tourism:</strong> Explores local and global heritage sites, cultural appreciation, and how to promote tourism while preserving culture and tradition.</li>
+            <li><strong>Tourism Policy and Planning:</strong> Examines government policies, laws, and regulations affecting tourism development and management at local, national, and international levels.</li>
+            <li><strong>Ecotourism Management:</strong> Focuses on sustainable tourism practices that promote environmental conservation and community involvement in natural attractions.</li>
+            <li><strong>Entrepreneurship in Tourism:</strong> Equips students with the knowledge to start and manage tourism-related businesses, fostering innovation and strategic planning.</li>
+        </ul>
+    </div>
+
+    <button onclick="goBack()">Back to Courses</button>
+</div>
+
+<script>
+let savedUsername = '';
+let savedPassword = '';
+let userProfile = {};
+
+function showLogin() {
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    
+    document.getElementById('signup').style.display = 'none';
+    document.getElementById('login').style.display = 'block';
+}
+
+function handleSignup(event) {
+    event.preventDefault();
+    const fullName = document.getElementById('fullName').value;
+    const birthdate = document.getElementById('birthdate').value;
+    const address = document.getElementById('address').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const email = document.getElementById('email').value;
+    const coursesEnrolled = document.getElementById('coursesEnrolled').value; 
+    const username = document.getElementById('signupUsername').value; 
+    const password = document.getElementById('signupPassword').value; 
+    
+    const passwordStrengthRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    
+    if (!passwordStrengthRegex.test(password)) {
+        alert("Password must be at least 8 characters long, contain at least one uppercase letter and one number.");
+        return; 
+    }
+    savedUsername = username;
+    savedPassword = password;
+    userProfile = {
+        fullName,
+        birthdate,
+        address,
+        phoneNumber,
+        email,
+        coursesEnrolled 
+    };
+    alert(`Account created successfully for ${fullName}!`);
+    showLogin();
+}
+
+
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notificationMessage');
+    notificationMessage.innerText = message;
+    notification.style.display = 'block';
+    setTimeout(() => {
+        closeNotification();
+    }, 1000);
+}
+
+function closeNotification() {
+    const notification = document.getElementById('notification');
+    notification.style.display = 'none';
+}
+
+function handleLogin(event) {
+    event.preventDefault();
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    if (username === savedUsername && password === savedPassword) {
+        document.getElementById('login').style.display = 'none';
+        document.getElementById('portal').style.display = 'block';
+        showNotification("Login successful!"); 
+    } else {
+        alert("Invalid username or password. Please try again.");
+    }
+}
+
+function showSignup() {
+    document.getElementById('fullName').value = '';
+    document.getElementById('birthdate').value = '';
+    document.getElementById('address').value = '';
+    document.getElementById('phoneNumber').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('signupUsername').value = '';
+    document.getElementById('signupPassword').value = '';
+    document.getElementById('coursesEnrolled').selectedIndex = 0; 
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('signup').style.display = 'block';
+}
+
+function viewProfile() {
+    const profileHtml = `
+        <h2>User Profile</h2>
+        <p><strong>Full Name:</strong> ${userProfile.fullName}</p>
+        <p><strong>Birthdate:</strong> ${userProfile.birthdate}</p>
+        <p><strong>Address:</strong> ${userProfile.address}</p>
+        <p><strong>Phone Number:</strong> ${userProfile.phoneNumber}</p>
+        <p><strong>Email:</strong> ${userProfile.email}</p>
+        <p><strong>Courses Enrolled:</strong> ${userProfile.coursesEnrolled}</p> 
+        <button onclick="closeProfile()">Close</button>
+    `;
+    document.getElementById('portal').innerHTML = profileHtml; 
+
+    showNotification("You clicked on your profile info.");
+}
+
+function closeProfile() {
+    document.getElementById('portal').innerHTML = `
+        <h1>Welcome to the E-Learning Portal</h1>
+        <p>Explore our courses in Colegio de Sta Teresa de Avila!</p>
+        <div class="button-container">
+            <button class="btn btn-primary" onclick="viewProfile()">View Profile</button>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    `;
+}
+
+function logout() {
+    const confirmLogout = confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+        savedUsername = '';
+        savedPassword = '';
+        userProfile = {};
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('fullName').value = '';
+        document.getElementById('birthdate').value = '';
+        document.getElementById('address').value = '';
+        document.getElementById('phoneNumber').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('signupUsername').value = '';
+        document.getElementById('signupPassword').value = '';
+     
+        document.getElementById('portal').style.display = 'none';
+        showLogin();
+    }
+}
+
+
+function showCourseDetail(title, description) {
+    document.getElementById('courseModalDescription').innerText = title;
+    
+    if (title === 'BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY') {
+        document.getElementById('programmingLanguages').style.display = 'block'; 
+        document.getElementById('educationMajors').style.display = 'none'; 
+        document.getElementById('hospitalityTopics').style.display = 'none'; 
+        document.getElementById('tourismTopics').style.display = 'none'; 
+    } else if (title === 'BACHELOR OF SCIENCE IN SECONDARY EDUCATION') {
+        document.getElementById('educationMajors').style.display = 'block'; 
+        document.getElementById('programmingLanguages').style.display = 'none'; 
+        document.getElementById('hospitalityTopics').style.display = 'none'; 
+        document.getElementById('tourismTopics').style.display = 'none'; 
+    } else if (title === 'BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT') {
+        document.getElementById('hospitalityTopics').style.display = 'block'; 
+        document.getElementById('programmingLanguages').style.display = 'none'; 
+        document.getElementById('educationMajors').style.display = 'none'; 
+        document.getElementById('tourismTopics').style.display = 'none'; 
+    } else if (title === 'BACHELOR OF SCIENCE IN TOURISM MANAGEMENT') {
+        document.getElementById('tourismTopics').style.display = 'block'; 
+        document.getElementById('programmingLanguages').style.display = 'none'; 
+        document.getElementById('educationMajors').style.display = 'none'; 
+        document.getElementById('hospitalityTopics').style.display = 'none'; 
+    } else {
+        document.getElementById('programmingLanguages').style.display = 'none'; 
+        document.getElementById('educationMajors').style.display = 'none'; 
+        document.getElementById('hospitalityTopics').style.display = 'none'; 
+        document.getElementById('tourismTopics').style.display = 'none'; 
+    }
+    
+    document.getElementById('portal').style.display = 'none'; 
+    document.getElementById('courseDetail').style.display = 'block'; 
+     const courseModal = new bootstrap.Modal(document.getElementById('courseModal'));
+    courseModal.show();
+}
+function goBack() {
+    document.getElementById('courseDetail').style.display = 'none'; 
+    document.getElementById('portal').style.display = 'block'; 
+}
+
+function closeProfile() {
+    document.getElementById('portal').innerHTML = `
+        <h1>Welcome to the E-Learning Portal</h1>
+        <p>Explore our courses and resources!</p>
+        <div class="course-list">
+            <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY', 'Learn how technology solves problems and meets user needs.')">
+                <h3>BACHELOR OF SCIENCE IN INFORMATION TECHNOLOGY</h3>
+                <p>Learn how technology solves problems and meets user needs.</p>
+            </div>
+            <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN SECONDARY EDUCATION', 'Prepare to become a high school teacher in specific areas.')">
+                <h3>BACHELOR OF SCIENCE IN SECONDARY EDUCATION</h3>
+                <p>Prepare to become a high school teacher in specific areas.</p>
+            </div>
+            <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT', 'Prepare for a career in the hospitality industry.')">
+                <h3>BACHELOR OF SCIENCE IN HOSPITALITY MANAGEMENT</h3>
+                <p>Prepare for a career in the hospitality industry.</p>
+            </div>
+            <div class="course" onclick="showCourseDetail('BACHELOR OF SCIENCE IN TOURISM MANAGEMENT', 'Understand various aspects of the tourism industry.')">
+                <h3>BACHELOR OF SCIENCE IN TOURISM MANAGEMENT</h3>
+                <p>Understand various aspects of the tourism industry.</p>
+            </div>
+        </div>
+        <div class="button-container" style="margin-top: 20px;">
+            <button class="btn btn-primary" onclick="viewProfile()">View Profile</button>
+            <button class="btn btn-danger" onclick="logout()">Logout</button>
+        </div>
+    `;
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js" integrity="sha384-VQqxDN0EQCkWoxt/0vsQvZswzTHUVOImccYmSyhJTp7kGtPed0Qcx8rK9h9YEgx+" crossorigin="anonymous"></script>
+</body>
+</html>
